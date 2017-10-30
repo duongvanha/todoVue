@@ -4,42 +4,162 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://unpkg.com/vue"></script>
+    <style>
+        .todo-done {
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body>
 <div id="app">
-    <ul>
-        <li v-for="(todo, index) in todos">
-            {{ todo }}
-            <button v-on:click="removeTodo(index)">remove</button>
-        </li>
-    </ul>
-    <input v-model="todo" v-on:keyup.enter="addTodo"/>
+    <todo-counter v-model="listTodo"></todo-counter>
+    <todos v-model="listTodo"></todos>
 </div>
 </body>
+
+
 <script>
-    var app = new Vue({
-        el     : '#app',
-        data   : {
-            todo : '',
-            todos: [
-                "a",
-                "a",
-                "a",
-                "a",
-                "a",
-                "a",
-                "a"
-            ]
+    Vue.component('todo-input', {
+        template: `
+      <input
+        ref="input"
+        v-bind:value="value"
+        v-on:input="updateValue($event.target.value)">`,
+        props   : ['value'],
+        methods : {
+            updateValue: function (value) {
+                this.$emit('input', new Todo(value))
+            }
+        }
+    });
+
+    Vue.component('todo', {
+        template: `
+       <div>
+            <input type="checkbox" v-model="todo.done" />
+            <span :class="{'todo-done': todo.done, 'todo-not-done': !todo.done}">{{todo.toString()}}</span>
+        </div>
+       `,
+        props   : ['todo']
+    });
+
+    class Todo {
+        constructor(name = '') {
+            this.name = name;
+            this.done = false
+        }
+
+        toString() {
+            return this.name;
+        }
+    }
+
+    Vue.component('todo-item', {
+        template: `
+            <div>
+                {{ todo.toString() }}
+            </div>
+        `,
+        props   : {
+            todo: {
+                type: Todo
+            }
         },
-        methods: {
-            addTodo   : function () {
-                this.todos.push(this.todo);
-                this.todo = ''
+    })
+
+    Vue.component('todos', {
+        template: `
+        <div>
+            <ul>
+                <li v-for="todo in value.toArray()">
+                    <todo :todo="todo" ></todo>
+                    <button v-on:click="value.removeTodo(todo)">remove</button>
+                </li>
+            </ul>
+            <button v-on:click="value.clearDone()">CLear todo done</button>
+            <button v-on:click="addValue()" >Add</button>
+            <todo-input v-model="todo" ></todo-input>
+        </div>
+    `,
+        props   : ['value'],
+        data    : function () {
+            return {
+                todo: new Todo()
+            };
+        },
+        methods : {
+            updateValue: function (value) {
+                this.$emit('input', new Todo(value))
             },
-            removeTodo: function (index) {
-                this.todos.splice(index, 1);
+            addValue   : function () {
+                this.value.addTodo(this.todo);
+                this.todo = new Todo()
             }
         }
     })
+
+    class Todos {
+        constructor() {
+            this.todos = [
+                new Todo('test')
+            ];
+        }
+
+        addTodo(todo) {
+            this.todos.push(todo);
+        }
+
+        removeTodo(todo) {
+            this.todos.splice(this.todos.indexOf(todo), 1);
+        }
+
+        countDone() {
+            return this.todos.reduce(function (count, todo) {
+                return count += todo.done ? 1 : 0
+            }, 0)
+        }
+
+        clearDone() {
+            this.todos = this.todos.filter(item => !item.done)
+        }
+
+        length() {
+            return this.todos.length;
+        }
+
+        toArray() {
+            return this.todos
+        }
+    }
+
+    const todos = new Todos();
+
+
+    Vue.component('todo-counter', {
+        template:
+            `
+                <h1>{{done}} / {{length}}</h1>
+
+            `,
+        props   : ['todos'],
+        computed: {
+            done  : function () {
+                return todos.countDone()
+            },
+            length: function () {
+                return todos.length()
+            }
+        }
+    });
+
+
+    const app = new Vue({
+        el  : '#app',
+        data: {
+            listTodo: todos
+        }
+    });
+
 </script>
+
 </html>
