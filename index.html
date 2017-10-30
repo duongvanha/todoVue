@@ -14,11 +14,78 @@
 <div id="app">
     <todo-counter v-model="listTodo"></todo-counter>
     <todos v-model="listTodo"></todos>
+
+    {{listTodo.toJson()}}
 </div>
 </body>
 
 
 <script>
+
+    class Todo {
+        constructor(name = '') {
+            this.name = name;
+            this.done = false
+        }
+
+        toString() {
+            return this.name;
+        }
+
+        toJson() {
+            return {
+                name: this.name,
+                done: this.done
+            }
+        }
+    }
+
+    class Todos {
+        constructor() {
+            this.todos = [
+                new Todo('test')
+            ];
+        }
+
+        addTodo(todo) {
+            this.todos.push(todo);
+        }
+
+        removeTodo(todo) {
+            this.todos.splice(this.todos.indexOf(todo), 1);
+        }
+
+        countDone() {
+            return this.todos.reduce(function (count, todo) {
+                return count += todo.done ? 1 : 0
+            }, 0)
+        }
+
+        clearDone() {
+            this.todos = this.todos.filter(item => !item.done)
+        }
+
+        length() {
+            return this.todos.length;
+        }
+
+        toArray() {
+            return this.todos
+        }
+
+        toJson() {
+            return this.todos.map(todo => todo.toJson())
+        }
+    }
+
+    const todos = new Todos();
+
+</script>
+
+<script>
+
+
+
     Vue.component('todo-input', {
         template: `
       <input
@@ -42,17 +109,6 @@
        `,
         props   : ['todo']
     });
-
-    class Todo {
-        constructor(name = '') {
-            this.name = name;
-            this.done = false
-        }
-
-        toString() {
-            return this.name;
-        }
-    }
 
     Vue.component('todo-item', {
         template: `
@@ -96,43 +152,7 @@
                 this.todo = new Todo()
             }
         }
-    })
-
-    class Todos {
-        constructor() {
-            this.todos = [
-                new Todo('test')
-            ];
-        }
-
-        addTodo(todo) {
-            this.todos.push(todo);
-        }
-
-        removeTodo(todo) {
-            this.todos.splice(this.todos.indexOf(todo), 1);
-        }
-
-        countDone() {
-            return this.todos.reduce(function (count, todo) {
-                return count += todo.done ? 1 : 0
-            }, 0)
-        }
-
-        clearDone() {
-            this.todos = this.todos.filter(item => !item.done)
-        }
-
-        length() {
-            return this.todos.length;
-        }
-
-        toArray() {
-            return this.todos
-        }
-    }
-
-    const todos = new Todos();
+    });
 
 
     Vue.component('todo-counter', {
@@ -159,6 +179,8 @@
             listTodo: todos
         }
     });
+
+
 
 </script>
 
