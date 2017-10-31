@@ -1,5 +1,4 @@
 const path              = require('path');
-const webpack           = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 
@@ -19,8 +18,9 @@ const config = {
         publicPath: "/"
     },
     resolve: {
-        alias: {
-            vue: 'vue/dist/vue.js'
+        extensions: ['.js', '.vue', '.json'],
+        alias     : {
+            'vue': 'vue/dist/vue.esm.js'
         }
     },
     module : {
@@ -31,8 +31,13 @@ const config = {
                 exclude: /node_modules/
             },
             {
-                test  : /\.vue$/,
-                loader: 'vue-loader'
+                test   : /\.vue$/,
+                loader : 'vue-loader',
+                options: {
+                    loaders: {
+                        js: 'babel-loader'
+                    }
+                }
             }
         ]
     },

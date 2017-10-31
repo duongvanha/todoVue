@@ -1,8 +1,12 @@
 import Vue from 'vue';
-import app from './app'
+import App from './App';
+
+Vue.component('todo-counter', require('./components/TodoCouter').default);
+Vue.component('todo-view', require('./components/Todos').default);
+
 
 new Vue({
     el        : '#app',
-    template  : '<app/>',
-    components: {app}
+    template  : '<App />',
+    components: {App}
 });
