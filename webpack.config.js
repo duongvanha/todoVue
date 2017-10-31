@@ -20,7 +20,8 @@ const config = {
     resolve: {
         extensions: ['.js', '.vue', '.json'],
         alias     : {
-            'vue': 'vue/dist/vue.esm.js'
+            'vue'       : 'vue/dist/vue.esm.js',
+            'components': path.join(__dirname, 'src', 'components')
         }
     },
     module : {

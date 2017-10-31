@@ -1,10 +1,8 @@
-import Todo from './Todo'
+import Todo from "./Todo";
 
 class Todos {
     constructor() {
-        this.todos = [
-            new Todo('test')
-        ];
+        this.todos = [];
     }
 
     addTodo(todo) {

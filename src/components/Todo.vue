@@ -8,7 +8,7 @@
 
 <script>
     export default {
-        name : 'todo',
+        name : 'todo-item',
         props: ['todo']
     }
 </script>

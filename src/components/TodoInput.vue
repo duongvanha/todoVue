@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import Todo from './../model/Todo'
+    import Todo from './../todo/Todo'
 
     export default {
         name   : 'todo-input',
@@ -23,5 +23,5 @@
                 this.$emit('enter', new Todo(value))
             }
         }
-    }
+    };
 </script>

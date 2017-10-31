@@ -2,7 +2,7 @@
     <div>
         <ul>
             <li v-for="todo in value.toArray()">
-                <todo :todo="todo"></todo>
+                <todo-item :todo="todo"></todo-item>
                 <button v-on:click="value.removeTodo(todo)">remove</button>
             </li>
         </ul>
@@ -13,17 +13,20 @@
 </template>
 
 <script>
-    import Todo from './../model/Todo'
+    import Todo from './../todo/Todo'
+    import TodoInput from 'components/TodoInput';
+    import TodoItem from 'components/Todo';
 
     export default {
-        name   : 'todo-view',
-        props  : ['value'],
-        data   : function () {
+        name      : 'todo-view',
+        props     : ['value'],
+        data      : function () {
             return {
                 todo: new Todo()
             };
         },
-        methods: {
+        components: {TodoInput, TodoItem},
+        methods   : {
             updateValue: function (value) {
                 this.$emit('input', new Todo(value))
             },
