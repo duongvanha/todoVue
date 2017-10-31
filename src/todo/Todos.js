@@ -1,5 +1,3 @@
-import Todo from "./Todo";
-
 class Todos {
     constructor() {
         this.todos = [];
@@ -34,4 +32,6 @@ class Todos {
     }
 }
 
-export default Todos
+
+export default Todos;
+

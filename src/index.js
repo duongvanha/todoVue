@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import App from './App';
+import App from 'components/App';
 import Todos from './todo/Todos';
 
 new Vue({
