@@ -13,7 +13,8 @@
     const todos = new Todos();
 
     export default {
-        name: 'app',
+        name  : 'app',
+        inject: ['todos'],
         data() {
             return {
                 listTodo: todos

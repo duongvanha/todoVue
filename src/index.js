@@ -1,14 +1,22 @@
 import Vue from 'vue';
 import App from './App';
+import provider from './provider';
 
-Vue.component('todo-counter', require('./components/TodoCouter').default);
-Vue.component('todo-input', require('./components/TodoInput').default);
-Vue.component('todo-view', require('./components/TodoView').default);
-Vue.component('todo', require('./components/Todo').default);
+import TodoCouter from './components/TodoCouter';
+import TodoInput from './components/TodoInput';
+import TodoView from './components/TodoView';
+import Todo from './components/Todo';
 
+Vue.component('todo-counter', TodoCouter);
+Vue.component('todo-input', TodoInput);
+Vue.component('todo-view', TodoView);
+Vue.component('todo', Todo);
 
 new Vue({
     el        : '#app',
     template  : '<App />',
-    components: {App}
+    components: {App},
+    provide() {
+        return provider
+    }
 });
