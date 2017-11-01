@@ -14,10 +14,9 @@
 
     export default {
         name      : 'app',
-        inject    : ['todos'],
-        data() {
-            return {
-                listTodo: new Todos()
+        computed  : {
+            listTodo() {
+                return this.$store.state.todos;
             }
         },
         components: {TodoCounter, TodoView}
