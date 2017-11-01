@@ -48,9 +48,10 @@ const config = {
         })
     ],
     devServer: {
+        host: '0.0.0.0',
         contentBase: path.join(__dirname, "dist"),
         compress   : true,
-        port       : 9000,
+        port       : 3000,
         open       : true
     }
 };
