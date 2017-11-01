@@ -8,23 +8,23 @@ const APP_DIR      = path.join(__dirname, 'src');
 const isProduction = (process.argv.indexOf('-p') !== -1);
 
 const config = {
-    entry  : {
+    entry    : {
         bundle: APP_DIR + '/index.js',
         // vendor: VENDOR_LIBS
     },
-    output : {
+    output   : {
         path      : BUILD_DIR,
         filename  : '[name].js',
         publicPath: "/"
     },
-    resolve: {
+    resolve  : {
         extensions: ['.js', '.vue', '.json'],
         alias     : {
             'vue'       : 'vue/dist/vue.esm.js',
             'components': path.join(__dirname, 'src', 'components')
         }
     },
-    module : {
+    module   : {
         rules: [
             {
                 use    : 'babel-loader',
@@ -42,11 +42,17 @@ const config = {
             }
         ]
     },
-    plugins: [
+    plugins  : [
         new HtmlWebPackPlugin({
             template: APP_DIR + '/index.html'
         })
-    ]
+    ],
+    devServer: {
+        contentBase: path.join(__dirname, "dist"),
+        compress   : true,
+        port       : 9000,
+        open       : true
+    }
 };
 
 module.exports = config;

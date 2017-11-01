@@ -1,19 +1,25 @@
 <template>
     <div>
-        <todo-counter v-model="todos"></todo-counter>
-        <todo-view v-model="todos"></todo-view>
+        <todo-counter v-model="listTodo"></todo-counter>
+        <todo-view v-model="listTodo"></todo-view>
 
-        {{todos.toJson()}}
+        {{listTodo.toJson()}}
     </div>
 </template>
 
 <script>
     import TodoCounter from 'components/TodoCounter';
     import TodoView from 'components/TodoView';
+    import Todos from './../todo/Todos';
 
     export default {
         name      : 'app',
         inject    : ['todos'],
+        data() {
+            return {
+                listTodo: new Todos()
+            }
+        },
         components: {TodoCounter, TodoView}
     }
 </script>
